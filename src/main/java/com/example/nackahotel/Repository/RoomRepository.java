@@ -1,4 +1,10 @@
 package com.example.nackahotel.Repository;
 
-public class RoomRepository {
+import com.example.nackahotel.Entity.Room;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RoomRepository extends JpaRepository<Room, Integer> {
+
+
+
 }
