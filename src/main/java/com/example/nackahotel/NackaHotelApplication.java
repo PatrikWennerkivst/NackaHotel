@@ -14,14 +14,14 @@ public class NackaHotelApplication {
         SpringApplication.run(NackaHotelApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner customer(CustomerRepository repository) {
-        return args -> {
-            repository.save(new Customer("Maria", "Kirkou"));
-            repository.save(new Customer("Jessica", "Sundin"));
-            repository.save(new Customer("Patrik", "Wennerkvist"));
-            repository.save(new Customer("Melina", "Skytén"));
-        };
-    }
+//    @Bean
+//    public CommandLineRunner customer(CustomerRepository repository) {
+//        return args -> {
+//            repository.save(new Customer("Maria", "Kirkou"));
+//            repository.save(new Customer("Jessica", "Sundin"));
+//            repository.save(new Customer("Patrik", "Wennerkvist"));
+//            repository.save(new Customer("Melina", "Skytén"));
+//        };
+//    }
 
 }
