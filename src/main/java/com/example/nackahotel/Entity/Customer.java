@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -23,9 +25,21 @@ public class Customer {
     @Column(nullable = false)
     private String lastName;
 
+    @NotBlank
+    @Column(nullable = false)
+    private String socialSecurityNumber;
 
-    public Customer(String firstName, String lastName) {
+    @NotBlank
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    @OneToMany (mappedBy = "customer")
+    private List<Booking> bookings;
+
+    public Customer(String firstName, String lastName, String socialSecurityNumber, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.socialSecurityNumber = socialSecurityNumber;
+        this.phoneNumber = phoneNumber;
     }
 }
