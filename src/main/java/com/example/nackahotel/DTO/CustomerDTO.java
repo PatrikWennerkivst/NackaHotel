@@ -6,19 +6,21 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-@Data
 public class CustomerDTO {
 
-    @NotEmpty(message = "please write your name")
-    @Size(min = 3,message = "at least 3 characters ")
-    private String name;
+    @NotEmpty(message = "First name is required")
+    @Size(min = 2, message = "At least 2 characters")
+    private String firstName;
 
-    @NotEmpty(message = "Email required")
-    @Email(message = "Invalid email address")
-    private String email;
+    @NotEmpty(message = "Last name is required")
+    @Size(min = 2, message = "At least 2 characters")
+    private String lastName;
 
-    @NotEmpty(message = "Phone number required")
+    @NotEmpty(message = "Social security number is required")
+    @Pattern(regexp = "^\\d{10}$", message = "Must be 10 digits")
+    private String socialSecurityNumber;
+
+    @NotEmpty(message = "Phone number is required")
     @Pattern(regexp = "^\\d{10}$", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
-
 }
