@@ -1,5 +1,6 @@
 package com.example.nackahotel.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class Customer {
     private String phoneNumber;
 
     @OneToMany (mappedBy = "customer")
+    @JsonManagedReference
     private List<Booking> bookings;
 
     public Customer(String firstName, String lastName, String socialSecurityNumber, String phoneNumber) {

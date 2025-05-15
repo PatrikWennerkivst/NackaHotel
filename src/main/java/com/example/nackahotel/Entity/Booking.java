@@ -1,7 +1,9 @@
 package com.example.nackahotel.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,20 +20,24 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
     private LocalDate startDate;
 
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
     private LocalDate endDate;
 
-    @NotBlank
+    @NotNull
     @ManyToOne
+    @JoinColumn(nullable = false)
+    @JsonBackReference
     private Customer customer;
 
-    @NotBlank
+    @NotNull
     @ManyToOne
+    @JoinColumn(nullable = false)
+    @JsonBackReference
     private Room room;
 
     public Booking (LocalDate startDate, LocalDate endDate, Customer customer, Room room) {

@@ -1,5 +1,6 @@
 package com.example.nackahotel.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,6 +31,7 @@ public class Room {
     // Denna kanske inte behövs gör så att man
     // enkelt kan kolla bokningar per rum
     @OneToMany(mappedBy = "room")
+    @JsonManagedReference
     private List<Booking> bookings;
 
     public Room(String name, int type) {
