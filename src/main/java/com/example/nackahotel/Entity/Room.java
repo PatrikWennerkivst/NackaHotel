@@ -1,6 +1,8 @@
 package com.example.nackahotel.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,9 +19,22 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Column(nullable = false)
+    private String name;
+
+    @NotNull
+    @Column(nullable = false)
+    private int type;
+
     // Denna kanske inte behövs gör så att man
     // enkelt kan kolla bokningar per rum
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
+
+    public Room(String name, int type) {
+        this.name = name;
+        this.type = type;
+    }
 
 }
