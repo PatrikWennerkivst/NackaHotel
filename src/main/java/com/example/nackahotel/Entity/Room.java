@@ -18,6 +18,7 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "Room ID is required")
     private Long id;
 
     @NotBlank
