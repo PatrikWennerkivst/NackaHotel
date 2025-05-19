@@ -18,6 +18,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             SELECT 1 FROM Booking b WHERE b.customer.id= c.id
             )
             """)
-    public int deleteCustomerIfNoBookings(@Param("customerId") Long customerId);
+    int deleteCustomerIfNoBookings(@Param("customerId") Long customerId);
 
 }
