@@ -1,10 +1,13 @@
 package com.example.nackahotel.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -24,9 +27,22 @@ public class Customer {
     @Column(nullable = false)
     private String lastName;
 
+    @NotBlank
+    @Column(nullable = false)
+    private String socialSecurityNumber;
 
-    public Customer(String firstName, String lastName) {
+    @NotBlank
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    @OneToMany (mappedBy = "customer")
+    @JsonManagedReference
+    private List<Booking> bookings;
+
+    public Customer(String firstName, String lastName, String socialSecurityNumber, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.socialSecurityNumber = socialSecurityNumber;
+        this.phoneNumber = phoneNumber;
     }
 }
