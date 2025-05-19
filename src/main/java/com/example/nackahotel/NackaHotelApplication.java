@@ -53,28 +53,18 @@ public class NackaHotelApplication {
             customerRepository.save(jessica);
             customerRepository.save(patrik);
 
-            Booking booking1 = new Booking(LocalDate.parse("2025-05-15"),
-                    LocalDate.parse("2025-05-18"), melina, room1);
-            Booking booking2 = new Booking(LocalDate.parse("2025-05-19"),
-                    LocalDate.parse("2025-05-22"), maria, room1);
-            Booking booking3 = new Booking(LocalDate.parse("2025-06-12"),
-                    LocalDate.parse("2025-06-15"), jessica, room2);
-            Booking booking4 = new Booking(LocalDate.parse("2025-06-20"),
-                    LocalDate.parse("2025-06-25"), patrik, room5);
+            Booking booking1 = new Booking(LocalDate.parse("2025-12-15"),
+                    LocalDate.parse("2025-12-18"), melina, room1);
+            Booking booking2 = new Booking(LocalDate.parse("2025-12-19"),
+                    LocalDate.parse("2025-12-22"), maria, room1);
+            Booking booking3 = new Booking(LocalDate.parse("2025-12-12"),
+                    LocalDate.parse("2025-12-15"), jessica, room2);
+            Booking booking4 = new Booking(LocalDate.parse("2025-12-20"),
+                    LocalDate.parse("2025-12-25"), patrik, room5);
             bookingRepository.save(booking1);
             bookingRepository.save(booking2);
             bookingRepository.save(booking3);
             bookingRepository.save(booking4);
         };
     }
-//    @Bean
-//    public CommandLineRunner customer(CustomerRepository repository) {
-//        return args -> {
-//            repository.save(new Customer("Maria", "Kirkou"));
-//            repository.save(new Customer("Jessica", "Sundin"));
-//            repository.save(new Customer("Patrik", "Wennerkvist"));
-//            repository.save(new Customer("Melina", "Skytén"));
-//        };
-//    }
-
 }

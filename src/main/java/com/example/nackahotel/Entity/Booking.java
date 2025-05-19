@@ -19,7 +19,6 @@ public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Customer ID is required")
     private Long id;
 
     @NotNull

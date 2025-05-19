@@ -2,6 +2,7 @@ package com.example.nackahotel.Controller;
 
 import com.example.nackahotel.Entity.Customer;
 import com.example.nackahotel.Repository.CustomerRepository;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +24,15 @@ public class CustomerController {
         return customerRepository.findAll();
     }
 
-    @PostMapping("/customers/add")
-    public List<Customer> addCustomer(@RequestBody Customer customer) {
-        customerRepository.save(customer);
+//    @PostMapping("/customers/add")
+//    public List<Customer> addCustomer(@Valid @RequestBody Customer customer) {
+//        customerRepository.save(customer);
+//        return customerRepository.findAll();
+//    }
+
+    @GetMapping("/customers/add")
+    public List<Customer> addCustomer(@Valid @RequestParam String firstName, @Valid @RequestParam String lastName, @Valid @RequestParam String socialSecurityNumber, @Valid @RequestParam String phoneNumber) {
+        customerRepository.save(new Customer(firstName, lastName, socialSecurityNumber, phoneNumber));
         return customerRepository.findAll();
     }
 
