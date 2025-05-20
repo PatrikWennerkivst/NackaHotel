@@ -31,7 +31,10 @@ public class CustomerController {
 //    }
 
     @GetMapping("/customers/add")
-    public List<Customer> addCustomer(@Valid @RequestParam String firstName, @Valid @RequestParam String lastName, @Valid @RequestParam String socialSecurityNumber, @Valid @RequestParam String phoneNumber) {
+    public List<Customer> addCustomer(@Valid @RequestParam String firstName,
+                                      @Valid @RequestParam String lastName,
+                                      @Valid @RequestParam String socialSecurityNumber,
+                                      @Valid @RequestParam String phoneNumber) {
         customerRepository.save(new Customer(firstName, lastName, socialSecurityNumber, phoneNumber));
         return customerRepository.findAll();
     }
