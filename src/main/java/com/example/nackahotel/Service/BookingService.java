@@ -36,9 +36,11 @@ public class BookingService {
     }
 
     public DetailedBookingDTO createBooking (@Valid BookingDTO bookingDTO) {
-        Customer customer = customerRepository.findById(bookingDTO.getCustomerId()).orElse(null);
+        Customer customer = customerRepository
+                .findById(bookingDTO.getCustomerId()).orElse(null);
 
-        Room room = roomRepository.findById(bookingDTO.getRoomId()).orElse(null);
+        Room room = roomRepository
+                .findById(bookingDTO.getRoomId()).orElse(null);
 
         Booking booking = new Booking (bookingDTO.getStartDate(), bookingDTO.getEndDate(), customer, room);
         bookingRepository.save(booking);
@@ -53,11 +55,13 @@ public class BookingService {
         if (bookingDTO.getEndDate() != null) booking.setEndDate(bookingDTO.getEndDate());
 
         if (bookingDTO.getCustomerId() != null) {
-            Customer customer = customerRepository.findById(bookingDTO.getCustomerId()).orElse(null);
+            Customer customer = customerRepository
+                    .findById(bookingDTO.getCustomerId()).orElse(null);
             booking.setCustomer(customer);
         }
         if (bookingDTO.getRoomId() != null) {
-            Room room = roomRepository.findById(bookingDTO.getRoomId()).orElse(null);
+            Room room = roomRepository.
+                    findById(bookingDTO.getRoomId()).orElse(null);
             booking.setRoom(room);
         }
         bookingRepository.save(booking);

@@ -1,17 +1,44 @@
 package com.example.nackahotel.Service;
 
-import com.example.nackahotel.DTO.CustomerDTO;
 import com.example.nackahotel.DTO.DetailedCustomerDTO;
 import com.example.nackahotel.Entity.Customer;
+import com.example.nackahotel.Repository.CustomerRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
 
-    private final BookingService bookingService;
+    private final CustomerRepository customerRepository;
+    private final Mapper mapper;
 
+    public List<DetailedCustomerDTO> getAllCustomers() {
+        return customerRepository.findAll().stream()
+                .map(c -> mapper.customerToDetailedCustomerDTO(c))
+                .toList();
+    }
+
+    public DetailedCustomerDTO getCustomerById(Long id) {
+        return mapper.customerToDetailedCustomerDTO(
+                customerRepository.findById(id).orElse(null));
+    }
+
+    public List<DetailedCustomerDTO> createCustomer(@Valid DetailedCustomerDTO customer) {
+        Customer newCustomer = new Customer(customer.getFirstName(),
+                customer.getLastName(), customer.getSocialSecurityNumber(), customer.getPhoneNumber());
+        customerRepository.save(newCustomer);
+        return customerRepository.findAll().stream()
+                .map(c -> mapper.customerToDetailedCustomerDTO(c)).toList();
+    }
+
+    public boolean deleteCustomerIfNoBooking(Long customerId) {
+        int deletedCount = customerRepository.deleteCustomerIfNoBookings(customerId);
+        return deletedCount > 0;
+    }
 
 
 }

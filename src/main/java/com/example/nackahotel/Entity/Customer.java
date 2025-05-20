@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -48,7 +49,7 @@ public class Customer {
 
     @OneToMany (mappedBy = "customer")
     @JsonManagedReference
-    private List<Booking> bookings;
+    private List<Booking> bookings = new ArrayList<>();
 
     public Customer(String firstName, String lastName, String socialSecurityNumber, String phoneNumber) {
         this.firstName = firstName;
