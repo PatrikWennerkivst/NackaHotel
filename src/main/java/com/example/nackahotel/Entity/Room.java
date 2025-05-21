@@ -2,6 +2,8 @@ package com.example.nackahotel.Entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Room {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,18 +28,25 @@ public class Room {
     private String name;
 
     @NotNull
+    @Enumerated(EnumType.STRING) // så den sparas som "SINGLE" eller "DOUBLE" i själva databasen
     @Column(nullable = false)
-    private int type;
+    private RoomType type;
 
-    // Denna kanske inte behövs gör så att man
-    // enkelt kan kolla bokningar per rum
+    @Min(0)
+    @Max(2)
+    private int maxExtraBeds;
+
+    private int maxGuests;
+
     @OneToMany(mappedBy = "room")
     @JsonManagedReference
     private List<Booking> bookings;
 
-    public Room(String name, int type) {
+    public Room(String name, RoomType type, int maxExtraBeds, int maxGuests) {
         this.name = name;
         this.type = type;
+        this.maxExtraBeds = maxExtraBeds;
+        this.maxGuests = maxGuests;
     }
-
 }
+

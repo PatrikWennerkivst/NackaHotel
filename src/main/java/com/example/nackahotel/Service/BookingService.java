@@ -13,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +45,23 @@ public class BookingService {
         Room room = roomRepository
                 .findById(bookingDTO.getRoomId()).orElse(null);
 
-        Booking booking = new Booking (bookingDTO.getStartDate(), bookingDTO.getEndDate(), customer, room);
+        // om rummet redan är bokat under någon del av det nya tiden
+        for (Booking existingBooking : room.getBookings()) {
+            if (datesOverlap(
+                    bookingDTO.getStartDate(),
+                    bookingDTO.getEndDate(),
+                    existingBooking.getStartDate(),
+                    existingBooking.getEndDate())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT,
+                        "The room is already booked. Try another date");
+            }
+        }
+
+        Booking booking = new Booking(
+                bookingDTO.getStartDate(),
+                bookingDTO.getEndDate(),
+                customer,
+                room);
         bookingRepository.save(booking);
         return mapper.bookingToDetailedBookingDTO(booking);
     }
@@ -73,6 +92,23 @@ public class BookingService {
         return bookingRepository.findAll().stream()
                 .map(b -> mapper.bookingToDetailedBookingDTO(b))
                 .toList();
+    }
+
+    // kolla om två datumintervall överlappar
+    private boolean datesOverlap(LocalDate start1, LocalDate end1, LocalDate start2, LocalDate end2) {
+        return !start1.isAfter(end2) && !start2.isAfter(end1);
+    }
+
+    public boolean isRoomAvailable(Long roomId, LocalDate startDate, LocalDate endDate) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found on this date."));
+
+        for (Booking booking : room.getBookings()) {
+            if (datesOverlap(startDate, endDate, booking.getStartDate(), booking.getEndDate())) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

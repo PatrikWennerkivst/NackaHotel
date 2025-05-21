@@ -5,7 +5,12 @@ import com.example.nackahotel.DTO.DetailedBookingDTO;
 import com.example.nackahotel.Service.BookingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -39,6 +44,21 @@ public class BookingController {
                                           @Valid @RequestBody BookingDTO updateRequest){
         return bookingService.updateBooking(id, updateRequest);
     }
+
+//    @GetMapping("/bookings/check") //kollar om rummet redan är bokat elr itt (kopplat till overlapping)
+//    public ResponseEntity<String> checkAvailability(
+//            @RequestParam Long roomId,
+//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+//
+//        boolean isAvailable = bookingService.isRoomAvailable(roomId, startDate, endDate);
+//
+//        if (isAvailable) {
+//            return ResponseEntity.ok("The room is available.");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("The room is already booked.");
+//        }
+//    }
 
 
 }
