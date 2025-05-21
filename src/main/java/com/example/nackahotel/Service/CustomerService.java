@@ -6,6 +6,9 @@ import com.example.nackahotel.Repository.CustomerRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -40,5 +43,18 @@ public class CustomerService {
         return deletedCount > 0;
     }
 
+    public String updateCustomer(Long id, String firstName, String lastName,
+                                 String socialSecurityNumber, String phoneNumber) {
+        return customerRepository.findById(id).map(customer -> {
+            if (firstName != null) customer.setFirstName(firstName);
+            if (lastName != null) customer.setLastName(lastName);
+            if (socialSecurityNumber != null) customer.setSocialSecurityNumber(socialSecurityNumber);
+            if (phoneNumber != null) customer.setPhoneNumber(phoneNumber);
+
+            customerRepository.save(customer);
+            return "Customer " + id + " has been updated";
+        } )
+                .orElse("Customer " + id + " was not found");
+    }
 
 }

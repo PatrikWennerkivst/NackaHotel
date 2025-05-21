@@ -49,4 +49,14 @@ public class CustomerController {
 //        return customerRepository.findAll();
 //    }
 
+    @RequestMapping("/customers/edit/{id}")
+    public String editCustomer(
+            @PathVariable Long id,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String socialSecurityNumber,
+            @RequestParam(required = false) String phonNumber){
+
+        return customerService.updateCustomer(id, firstName, lastName, socialSecurityNumber, phonNumber);
+    }
 }
