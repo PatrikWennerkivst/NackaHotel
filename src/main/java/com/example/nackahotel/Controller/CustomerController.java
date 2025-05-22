@@ -1,5 +1,6 @@
 package com.example.nackahotel.Controller;
 
+import com.example.nackahotel.DTO.CreateCustomerDTO;
 import com.example.nackahotel.DTO.DetailedCustomerDTO;
 import com.example.nackahotel.Service.CustomerService;
 import jakarta.validation.Valid;
@@ -28,7 +29,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/add")
-    public List<DetailedCustomerDTO> addCustomer(@Valid @RequestBody DetailedCustomerDTO customer) {
+    public DetailedCustomerDTO addCustomer(@Valid @RequestBody CreateCustomerDTO customer) {
         return customerService.createCustomer(customer);
     }
 
@@ -39,14 +40,4 @@ public class CustomerController {
                 ? ("Customer " + customerId + " deleted successfully")
                 : ("Customer " + customerId + " not found or present in booking(s) and cannot be deleted");
     }
-
-//    @GetMapping("/customers/addGET")
-//    public List<Customer> addCustomerGet(@Valid @RequestParam String firstName,
-//                                         @Valid @RequestParam String lastName,
-//                                         @Valid @RequestParam String socialSecurityNumber,
-//                                         @Valid @RequestParam String phoneNumber) {
-//        customerRepository.save(new Customer(firstName, lastName, socialSecurityNumber, phoneNumber));
-//        return customerRepository.findAll();
-//    }
-
 }

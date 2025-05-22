@@ -12,7 +12,7 @@ public class DetailedBookingDTO {
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private CustomerDTO customer;
-    private RoomDTO room;
+    private SimpleCustomerDTO customer;
+    private SimpleRoomDTO room;
 
 }

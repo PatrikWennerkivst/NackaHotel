@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+//used for a detailed customer output
+
 @Data
 @Builder
 @AllArgsConstructor

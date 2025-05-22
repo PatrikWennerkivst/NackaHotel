@@ -5,14 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//used for a simpler customer output
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoomDTO {
+public class SimpleCustomerDTO {
 
     private Long id;
-    private String name;
-    private int type;
-
+    private String firstName;
+    private String lastName;
 }

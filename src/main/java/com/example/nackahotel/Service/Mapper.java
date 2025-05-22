@@ -35,8 +35,8 @@ public class Mapper {
                 .build();
     }
 
-    public CustomerDTO customerToCustomerDTO(Customer customer) {
-        return CustomerDTO.builder()
+    public SimpleCustomerDTO customerToCustomerDTO(Customer customer) {
+        return SimpleCustomerDTO.builder()
                 .id(customer.getId())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
@@ -55,8 +55,8 @@ public class Mapper {
                 .build();
     }
 
-    public RoomDTO roomToRoomDTO(Room room) {
-        return RoomDTO.builder()
+    public SimpleRoomDTO roomToRoomDTO(Room room) {
+        return SimpleRoomDTO.builder()
                 .id(room.getId())
                 .name(room.getName())
                 .type(room.getType())

@@ -1,5 +1,6 @@
 package com.example.nackahotel.Service;
 
+import com.example.nackahotel.DTO.CreateCustomerDTO;
 import com.example.nackahotel.DTO.DetailedCustomerDTO;
 import com.example.nackahotel.Entity.Customer;
 import com.example.nackahotel.Repository.CustomerRepository;
@@ -27,18 +28,18 @@ public class CustomerService {
                 customerRepository.findById(id).orElse(null));
     }
 
-    public List<DetailedCustomerDTO> createCustomer(@Valid DetailedCustomerDTO customer) {
-        Customer newCustomer = new Customer(customer.getFirstName(),
-                customer.getLastName(), customer.getSocialSecurityNumber(), customer.getPhoneNumber());
-        customerRepository.save(newCustomer);
-        return customerRepository.findAll().stream()
-                .map(c -> mapper.customerToDetailedCustomerDTO(c)).toList();
+    public DetailedCustomerDTO createCustomer(@Valid CreateCustomerDTO customer) {
+        Customer newCustomer = new Customer(
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getSocialSecurityNumber(),
+                customer.getPhoneNumber());
+        Customer savedCustomer = customerRepository.save(newCustomer);
+        return mapper.customerToDetailedCustomerDTO(savedCustomer);
     }
 
     public boolean deleteCustomerIfNoBooking(Long customerId) {
         int deletedCount = customerRepository.deleteCustomerIfNoBookings(customerId);
         return deletedCount > 0;
     }
-
-
 }
