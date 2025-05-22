@@ -26,13 +26,13 @@ public class NackaHotelApplication {
                                       CustomerRepository customerRepository,
                                       BookingRepository bookingRepository) {
         return args -> {
-            Room room1 = new Room("101", RoomType.SINGLE, 0, 1);
-            Room room2 = new Room("102", RoomType.DOUBLE, 1, 2);
-            Room room3 = new Room("103", RoomType.SUITE, 2, 4);
-            Room room4 = new Room("104", RoomType.SINGLE, 0, 1);
-            Room room5 = new Room("201", RoomType.DOUBLE, 1, 2);
-            Room room6 = new Room("202", RoomType.SUITE, 2, 4);
-            Room room7 = new Room("203", RoomType.SINGLE, 0, 1);
+            Room room1 = new Room("101", RoomType.SINGLE, 1);
+            Room room2 = new Room("102", RoomType.DOUBLE, 2);
+            Room room3 = new Room("103", RoomType.SUITE, 4);
+            Room room4 = new Room("104", RoomType.SINGLE, 1);
+            Room room5 = new Room("201", RoomType.DOUBLE, 2);
+            Room room6 = new Room("202", RoomType.SUITE, 4);
+            Room room7 = new Room("203", RoomType.SINGLE, 1);
             roomRepository.save(room1);
             roomRepository.save(room2);
             roomRepository.save(room3);

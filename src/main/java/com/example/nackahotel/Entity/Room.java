@@ -32,9 +32,6 @@ public class Room {
     @Column(nullable = false)
     private RoomType type;
 
-    @Min(0)
-    @Max(2)
-    private int maxExtraBeds;
 
     private int maxGuests;
 
@@ -42,10 +39,9 @@ public class Room {
     @JsonManagedReference
     private List<Booking> bookings;
 
-    public Room(String name, RoomType type, int maxExtraBeds, int maxGuests) {
+    public Room(String name, RoomType type, int maxGuests) {
         this.name = name;
         this.type = type;
-        this.maxExtraBeds = maxExtraBeds;
         this.maxGuests = maxGuests;
     }
 }
