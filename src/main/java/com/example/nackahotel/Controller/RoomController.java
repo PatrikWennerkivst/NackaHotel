@@ -1,8 +1,10 @@
 package com.example.nackahotel.Controller;
 
 import com.example.nackahotel.DTO.DetailedRoomDTO;
+import com.example.nackahotel.Entity.RoomType;
 import com.example.nackahotel.Service.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.util.List;
 
+@Controller
 @RestController
 @RequiredArgsConstructor
 public class RoomController {
@@ -30,7 +33,7 @@ public class RoomController {
     @RequestMapping("/rooms/available/{startDate}/{endDate}/{roomType}")
     public List<DetailedRoomDTO> getAvailableRooms(@PathVariable LocalDate startDate,
                                                    @PathVariable LocalDate endDate,
-                                                   @PathVariable int roomType) {
+                                                   @PathVariable RoomType roomType) {
         return roomService.getAvailableRooms(startDate, endDate, roomType);
     }
 

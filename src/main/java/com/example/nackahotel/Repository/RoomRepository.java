@@ -1,6 +1,7 @@
 package com.example.nackahotel.Repository;
 
 import com.example.nackahotel.Entity.Room;
+import com.example.nackahotel.Entity.RoomType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +23,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             """)
     List<Room> findAvailableRooms(@Param("startDate") LocalDate startDate,
                                          @Param("endDate") LocalDate endDate,
-                                         @Param("roomType") int roomType);
+                                         @Param("roomType") RoomType roomType);
 
 }

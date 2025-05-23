@@ -1,6 +1,7 @@
 package com.example.nackahotel.Service;
 
 import com.example.nackahotel.DTO.DetailedRoomDTO;
+import com.example.nackahotel.Entity.RoomType;
 import com.example.nackahotel.Repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class RoomService {
                 roomRepository.findById(id).orElse(null));
     }
 
-    public List<DetailedRoomDTO> getAvailableRooms(LocalDate startDate, LocalDate endDate, int roomType) {
+    public List<DetailedRoomDTO> getAvailableRooms(LocalDate startDate, LocalDate endDate, RoomType roomType) {
         return roomRepository.findAvailableRooms(startDate, endDate, roomType)
                 .stream()
                 .map(r -> mapper.roomToDetailedRoomDTO(r))
