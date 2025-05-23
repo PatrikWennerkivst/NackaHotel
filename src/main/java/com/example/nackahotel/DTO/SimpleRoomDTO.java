@@ -1,5 +1,6 @@
 package com.example.nackahotel.DTO;
 
+import com.example.nackahotel.Entity.RoomType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ public class SimpleRoomDTO {
 
     private Long id;
     private String name;
-    private int type;
+    private RoomType type;
+
 
 }
