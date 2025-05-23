@@ -42,13 +42,13 @@ public class NackaHotelApplication {
             roomRepository.save(room7);
 
             Customer melina = new Customer("Melina", "Skyten",
-                    "0000000000", "0701234567");
+                    "0000000001", "0701234567");
             Customer maria = new Customer("Maria", "Kirkou",
-                    "0000000000", "0701234567");
+                    "0000000002", "0701234567");
             Customer jessica = new Customer("Jessica", "Sundin",
-                    "0000000000", "0701234567");
+                    "0000000003", "0701234567");
             Customer patrik = new Customer("Patrik", "Wennerkvist",
-                    "0000000000", "0701234567");
+                    "0000000004", "0701234567");
             customerRepository.save(melina);
             customerRepository.save(maria);
             customerRepository.save(jessica);
