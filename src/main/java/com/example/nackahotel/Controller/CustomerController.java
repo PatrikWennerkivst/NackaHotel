@@ -40,4 +40,24 @@ public class CustomerController {
                 ? ("Customer " + customerId + " deleted successfully")
                 : ("Customer " + customerId + " not found or present in booking(s) and cannot be deleted");
     }
+
+//    @GetMapping("/customers/addGET")
+//    public List<Customer> addCustomerGet(@Valid @RequestParam String firstName,
+//                                         @Valid @RequestParam String lastName,
+//                                         @Valid @RequestParam String socialSecurityNumber,
+//                                         @Valid @RequestParam String phoneNumber) {
+//        customerRepository.save(new Customer(firstName, lastName, socialSecurityNumber, phoneNumber));
+//        return customerRepository.findAll();
+//    }
+
+    @RequestMapping("/customers/edit/{id}")
+    public String editCustomer(
+            @PathVariable Long id,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String socialSecurityNumber,
+            @RequestParam(required = false) String phonNumber){
+
+        return customerService.updateCustomer(id, firstName, lastName, socialSecurityNumber, phonNumber);
+    }
 }
