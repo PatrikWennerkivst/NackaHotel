@@ -15,11 +15,14 @@
             <span th:text="${room.name}"></span> -
             <span th:text="${room.type}"></span> -
             Max guests: <span th:text="${room.maxGuests}"></span>
-            <a th:href="@{/booking/book(roomId=${room.id})}">Book Room</a>
+            <a th:href="@{/bookings/add(roomId=${room.id}, startDate=${startDate}, endDate=${endDate})}">Book Room</a>
         </li>
     </ul>
 
-    <p th:if="${rooms != null and rooms.isEmpty()}">No rooms available.</p>
+    <p th:if="${rooms != null and rooms.isEmpty()}">No rooms available for these dates.</p>
 </div>
+
+<br>
+<a href="/booking">Search for other dates</a>
 </body>
-</html>s
+</html>

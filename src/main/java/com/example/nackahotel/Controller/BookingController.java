@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -38,11 +39,49 @@ public class BookingController {
         return bookingService.getBookingById(id);
     }
 
-    @PostMapping("/bookings/add")
+    /*@PostMapping("/bookings/add")
     public DetailedBookingDTO addBooking(@Valid @RequestBody BookingDTO bookingDTO){
         return bookingService.createBooking(bookingDTO);
     }
 
+     */
+    @PostMapping("/bookings/add")
+    public String createBooking(@Valid @ModelAttribute BookingDTO bookingDTO,
+                                BindingResult result,
+                                Model model) {
+        if (result.hasErrors()) {
+
+            DetailedRoomDTO room = roomService.getRoomById(bookingDTO.getRoomId());
+            model.addAttribute("room", room);
+            return "createBooking";
+        }
+        return "redirect:/bookings";
+    }
+
+    @GetMapping("/bookings/add")
+    public String showCreateBookingForm(
+            @RequestParam Long roomId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            Model model) {
+
+        // Hämta rummet
+        DetailedRoomDTO room = roomService.getRoomById(roomId);
+
+        // Skapar en ny BookingDTO med dom nya värden
+        BookingDTO bookingDTO = BookingDTO.builder()
+                .roomId(roomId)
+                .startDate(startDate)
+                .endDate(endDate)
+                .build();
+
+        model.addAttribute("room", room);
+        model.addAttribute("bookingDTO", bookingDTO);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
+        return "createBooking";
+    }
     @RequestMapping("/bookings/delete/{id}")
     public List<DetailedBookingDTO> deleteBooking(@PathVariable Long id){
         return bookingService.deleteBooking(id);
