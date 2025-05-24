@@ -81,7 +81,7 @@ public class BookingController {
 
         List<DetailedRoomDTO> availableRooms = roomService.getAllAvailableRooms(startDate, endDate);
         if (maxGuests != null) {
-            availableRooms =availableRooms.stream()
+            availableRooms = availableRooms.stream()
                     .filter(room -> room.getMaxGuests() >= maxGuests)
                     .toList();
         }
