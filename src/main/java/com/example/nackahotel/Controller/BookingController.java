@@ -2,22 +2,30 @@ package com.example.nackahotel.Controller;
 
 import com.example.nackahotel.DTO.BookingDTO;
 import com.example.nackahotel.DTO.DetailedBookingDTO;
+import com.example.nackahotel.DTO.DetailedRoomDTO;
+import com.example.nackahotel.Entity.Room;
 import com.example.nackahotel.Service.BookingService;
+import com.example.nackahotel.Service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
+@Controller
+//@RestController
 @RequiredArgsConstructor
 public class BookingController {
 
     private final BookingService bookingService;
+
+    private final RoomService roomService;
 
     @RequestMapping("/bookings")
     public List<DetailedBookingDTO> getAllBookings(){
@@ -60,5 +68,20 @@ public class BookingController {
 //        }
 //    }
 
+    // Visar alla bookingar som HTML
 
+    // Visar lediga rum för booking
+    @GetMapping("/booking/rooms")
+    public String getAvailableRoomsForBooking(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            Model model) {
+
+        List<DetailedRoomDTO> availableRooms = roomService.getAllAvailableRooms(startDate, endDate);
+        model.addAttribute("rooms", availableRooms);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
+        return "availableRooms.html";
+    }
 }

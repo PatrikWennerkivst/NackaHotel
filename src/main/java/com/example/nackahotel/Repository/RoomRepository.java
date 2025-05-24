@@ -10,19 +10,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
-
     @Query("""
-            SELECT r FROM Room r
-            WHERE r.type = :roomType
-            AND NOT EXISTS (
-            SELECT 1 FROM Booking b
-            WHERE b.room.id = r.id
-            AND b.startDate < :endDate
-            AND b.endDate > :startDate
-            )
-            """)
-    List<Room> findAvailableRooms(@Param("startDate") LocalDate startDate,
-                                         @Param("endDate") LocalDate endDate,
-                                         @Param("roomType") RoomType roomType);
-
+        SELECT r FROM Room r
+        WHERE NOT EXISTS (
+        SELECT 1 FROM Booking b
+        WHERE b.room.id = r.id
+        AND b.startDate < :endDate
+        AND b.endDate > :startDate
+        )
+        """)
+    List<Room> findAllAvailableRooms(@Param("startDate") LocalDate startDate,
+                                     @Param("endDate") LocalDate endDate);
 }

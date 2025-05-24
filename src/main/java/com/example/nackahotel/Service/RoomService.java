@@ -28,12 +28,10 @@ public class RoomService {
                 roomRepository.findById(id).orElse(null));
     }
 
-    public List<DetailedRoomDTO> getAvailableRooms(LocalDate startDate, LocalDate endDate, RoomType roomType) {
-        return roomRepository.findAvailableRooms(startDate, endDate, roomType)
+    public List<DetailedRoomDTO> getAllAvailableRooms(LocalDate startDate, LocalDate endDate) {
+        return roomRepository.findAllAvailableRooms(startDate, endDate)
                 .stream()
                 .map(r -> mapper.roomToDetailedRoomDTO(r))
                 .toList();
     }
-
-
 }
