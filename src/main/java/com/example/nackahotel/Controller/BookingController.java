@@ -28,6 +28,7 @@ public class BookingController {
     private final RoomService roomService;
 
     @RequestMapping("/bookings")
+    @ResponseBody
     public List<DetailedBookingDTO> getAllBookings(){
         return bookingService.getAllBookings();
     }
@@ -49,7 +50,7 @@ public class BookingController {
 
     @PutMapping("/bookings/update/{id}")
     public DetailedBookingDTO updateBooking(@PathVariable Long id,
-                                          @Valid @RequestBody BookingDTO updateRequest){
+                                            @Valid @RequestBody BookingDTO updateRequest){
         return bookingService.updateBooking(id, updateRequest);
     }
 
@@ -75,9 +76,15 @@ public class BookingController {
     public String getAvailableRoomsForBooking(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) Integer maxGuests,
             Model model) {
 
         List<DetailedRoomDTO> availableRooms = roomService.getAllAvailableRooms(startDate, endDate);
+        if (maxGuests != null) {
+            availableRooms =availableRooms.stream()
+                    .filter(room -> room.getMaxGuests() >= maxGuests)
+                    .toList();
+        }
         model.addAttribute("rooms", availableRooms);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);

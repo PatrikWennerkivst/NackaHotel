@@ -34,18 +34,26 @@ public class RoomController {
     //http://localhost:8080/rooms/available/2025-05-14/2025-05-18/2
     @GetMapping("/rooms/available")
     @ResponseBody
-    public String getAvailableRoomsPage(
+    public String getAvailableRooms(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(required = false) RoomType roomType,
+            @RequestParam(required = false) Integer maxGuests,
             Model model) {
 
-        if (startDate != null && endDate != null && roomType != null) {
+        if (startDate != null && endDate != null && roomType != null && maxGuests != null) {
             List<DetailedRoomDTO> availableRooms = roomService.getAllAvailableRooms(startDate, endDate);
+
+            List<DetailedRoomDTO> filterdRooms = availableRooms.stream()
+                    .filter(room -> room.getType() == roomType)
+                    .filter(room -> room.getMaxGuests() >= maxGuests)
+                    .toList();
             model.addAttribute("rooms", availableRooms);
             model.addAttribute("startDate", startDate);
             model.addAttribute("endDate", endDate);
             model.addAttribute("roomType", roomType);
+            model.addAttribute("maxGuests", maxGuests);
+
         }
 
         model.addAttribute("roomTypes", RoomType.values());
