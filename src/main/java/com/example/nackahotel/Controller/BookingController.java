@@ -68,7 +68,7 @@ public class BookingController {
         // Hämta rummet
         DetailedRoomDTO room = roomService.getRoomById(roomId);
 
-        // Skapar en ny BookingDTO med dom nya värden
+        // Skapar en ny BookingDTO med dom nya värdena
         BookingDTO bookingDTO = BookingDTO.builder()
                 .roomId(roomId)
                 .startDate(startDate)
