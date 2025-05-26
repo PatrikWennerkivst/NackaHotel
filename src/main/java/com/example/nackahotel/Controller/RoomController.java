@@ -5,6 +5,7 @@ import com.example.nackahotel.Entity.RoomType;
 import com.example.nackahotel.Service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,15 +14,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RestController
 @RequiredArgsConstructor
 public class RoomController {
 
     private final RoomService roomService;
 
     @RequestMapping("/rooms")
-    public List<DetailedRoomDTO> getAllRooms() {
-        return roomService.getAllRooms();
+    public String getAllRooms(Model model) {
+        List<DetailedRoomDTO> rooms = roomService.getAllRooms();
+        model.addAttribute("rooms", rooms);
+        return "allRooms";
     }
 
     @RequestMapping("/rooms/{id}")

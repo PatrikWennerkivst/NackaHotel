@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customers</title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: body"></div>
+
+<h1>Customers</h1>
+
+<div th:if="${message}" style="color: green;">
+    <p th:text="${message}"></p>
+</div>
+<div th:if="${error}" style="color: red;">
+    <p th:text="${error}"></p>
+</div>
+
+<ul>
+    <li th:each="customer : ${customers}"
+        style="margin-bottom: 1.5em; padding: 1em; border: 1px solid #ccc; border-radius: 5px;">
+        <div><strong>Customer-ID:</strong> <span th:text="${customer.id}">id</span></div>
+        <div><strong>Name:</strong> <span th:text="${customer.firstName + ' ' + customer.lastName}">name</span></div>
+        <div><strong>Phone Number:</strong> <span th:text="${customer.phoneNumber}">phone number</span></div>
+        <div><strong>Social Security Number:</strong> <span th:text="${customer.socialSecurityNumber}">ssn</span></div>
+
+        <div><strong>Bookings:</strong>
+            <ul>
+                <li th:each="booking : ${customer.bookings}">
+                    <span th:text="'Booking ' + ${booking.id} + ': ' + ${booking.startDate} + ' - ' + ${booking.endDate}">booking info</span>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <span>
+                <a th:href="@{'/customers/edit/' + ${customer.id}}">Edit</a>
+                | <a th:href="@{'/customers/delete/' + ${customer.id}}">Delete</a>
+            </span>
+        </div>
+    </li>
+</ul>
+
+</body>
+</html>

@@ -8,6 +8,18 @@
 
 <div th:replace="fragments/header :: body"></div>
 
+<h1>Bookings</h1>
+
+<div th:if="${message}" style="color: green;">
+  <p th:text="${message}"></p>
+</div>
+<div th:if="${errorMessage}" style="color: red;">
+  <p th:text="${errorMessage}"></p>
+</div>
+<div th:if="${successMessage}" style="color: green;">
+  <p th:text="${successMessage}"></p>
+</div>
+
 <ul>
   <li th:each="booking : ${bookings}" style="margin-bottom: 1.5em; padding: 1em; border: 1px solid #ccc; border-radius: 5px;">
     <div><strong>Booking-ID:</strong> <span th:text="${booking.id}">id</span></div>
@@ -18,7 +30,7 @@
 
 
     <div>
-      <a th:href="@{'/bookings/X' + ${booking.id}}">Edit</a> | <!-- Lägg till länk till update booking thymeleaf-->
+      <a th:href="@{'/bookings/update/' + ${booking.id}}">Edit</a> | <!-- Lägg till länk till update booking thymeleaf-->
       <a th:href="@{'/bookings/delete/' + ${booking.id}}">Delete</a>
     </div>
   </li>
