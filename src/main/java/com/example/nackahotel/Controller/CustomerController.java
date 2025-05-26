@@ -30,8 +30,15 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/add")
-    public DetailedCustomerDTO addCustomer(@Valid @RequestBody CreateCustomerDTO customer) {
-        return customerService.createCustomer(customer);
+    public String homeReceiver(@RequestParam String firstName, @RequestParam String lastName,
+                               @RequestParam String socialSecurityNumber, @RequestParam String phoneNumber,
+                               Model model) {
+        customerService.createCustomer(new CreateCustomerDTO(firstName,lastName,socialSecurityNumber,phoneNumber));
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("socialSecurityNumber", socialSecurityNumber);
+        model.addAttribute("phoneNumber", phoneNumber);
+        return "customerCreated";
     }
 
     @RequestMapping("/customers/delete/{customerId}")
@@ -62,9 +69,8 @@ public class CustomerController {
         return customerService.updateCustomer(id, firstName, lastName, socialSecurityNumber, phoneNumber);
     }
 
-    @GetMapping("/formBooking")
-        public String showCustomerForm() {
-//            model.addAttribute("createCustomerDTO", new CreateCustomerDTO());
-            return "formBooking";
-        }
+    @GetMapping("/createCustomer")
+    public String showBookingForm(Model model) {
+        return "createCustomer";
+    }
 }
