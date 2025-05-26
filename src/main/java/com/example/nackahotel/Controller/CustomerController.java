@@ -54,7 +54,13 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
-//    @GetMapping("/customers/addGET")
+    @GetMapping("/formBooking")
+        public String showCustomerForm() {
+//            model.addAttribute("createCustomerDTO", new CreateCustomerDTO());
+            return "formBooking";
+        }
+
+    //    @GetMapping("/customers/addGET")
 //    public List<Customer> addCustomerGet(@Valid @RequestParam String firstName,
 //                                         @Valid @RequestParam String lastName,
 //                                         @Valid @RequestParam String socialSecurityNumber,
@@ -98,10 +104,4 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         return "updateCustomer";
     }
-
-    @GetMapping("/formBooking")
-        public String showCustomerForm() {
-//            model.addAttribute("createCustomerDTO", new CreateCustomerDTO());
-            return "formBooking";
-        }
 }
