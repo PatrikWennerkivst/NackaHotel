@@ -1,31 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org/" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create a Booking</title>
+    <title>NackaHotel - Create Booking</title>
 </head>
 <body>
+<h1>Create Booking</h1>
 
-<h1>Create a Booking</h1>
+<div class="room-info" th:if="${room}">
+    <h3>Selected Room</h3>
+    <p><strong>Room:</strong> <span th:text="${room.name}"></span></p>
+    <p><strong>Type:</strong> <span th:text="${room.type}"></span></p>
+    <p><strong>Dates:</strong>
+        <span th:text="${bookingDTO.startDate}"></span> to
+        <span th:text="${bookingDTO.endDate}"></span>
+    </p>
+</div>
 
-<form action="/bookings/add" method="post">
-    <label for="startDate">Start Date:</label><br>
-    <input type="date" id="startDate" name="startDate" required><br><br>
+<form th:action="@{/bookings/add}" method="post" th:object="${bookingDTO}">
 
-    <label for="endDate">End Date:</label><br>
-    <input type="date" id="endDate" name="endDate" required><br><br>
+    <input type="hidden" th:field="*{roomId}" />
+    <input type="hidden" th:field="*{startDate}" />
+    <input type="hidden" th:field="*{endDate}" />
 
-    <label for="customerId">Customer ID:</label><br>
-    <input type="number" id="customerId" name="customerId" required><br><br>
 
-    <label for="roomId">Room ID:</label><br>
-    <input type="number" id="roomId" name="roomId" required><br><br>
+    <label for="customerId">Select Customer:</label><br>
+    <select th:field="*{customerId}" id="customerId" required>
+        <option value="">-- Choose Customer --</option>
+        <option th:each="customer : ${customers}"
+                th:value="${customer.id}"
+                th:text="${customer.firstName + ' ' + customer.lastName}">
+        </option>
+    </select>
+    <span th:if="${#fields.hasErrors('customerId')}"
+          th:errors="*{customerId}" class="text-danger"></span>
+    <br><br>
 
-    <input type="submit" value="Create Booking">
+    <button type="submit">Create Booking</button>
 </form>
 
 <br>
-<a href="/menu">← Back to menu</a>
-
+<a th:href="@{/rooms}">← Back to Rooms</a>
 </body>
 </html>

@@ -34,12 +34,12 @@ public class Mapper {
                 .id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
-                .customer(customerToCustomerDTO(booking.getCustomer()))
-                .room(roomToRoomDTO(booking.getRoom()))
+                .customer(customerToSimpleCustomerDTO(booking.getCustomer()))
+                .room(roomToSimpleRoomDTO(booking.getRoom()))
                 .build();
     }
 
-    public SimpleCustomerDTO customerToCustomerDTO(Customer customer) {
+    public SimpleCustomerDTO customerToSimpleCustomerDTO(Customer customer) {
         return SimpleCustomerDTO.builder()
                 .id(customer.getId())
                 .firstName(customer.getFirstName())
@@ -59,7 +59,7 @@ public class Mapper {
                 .build();
     }
 
-    public SimpleRoomDTO roomToRoomDTO(Room room) {
+    public SimpleRoomDTO roomToSimpleRoomDTO(Room room) {
         return SimpleRoomDTO.builder()
                 .id(room.getId())
                 .name(room.getName())

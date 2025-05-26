@@ -5,12 +5,19 @@
     <title>NackaHotel - Rooms</title>
 </head>
 <body>
-<form action="booking/rooms" method="post">
+<h1>Book a Room</h1>
+<form action="booking/rooms" method="get">
     <label for="startDate">Start date</label><br>
     <input type="text" id="startDate" name="startDate"><br>
+
     <label for="endDate">End date</label><br>
-    <input type="text" id="endDate" name="endDate"><br>
-    <input type="submit" value="Submit">
+    <input type="text" id="endDate" name="endDate"><br><br>
+
+    <label for="maxGuests">Number of Guests:</label><br>
+    <input type="number" name="maxGuests" min="1" max="4" value="1" required><br><br>
+
+    <input type="submit" value="Submit for av">
 </form>
 </body>
 </html>
+

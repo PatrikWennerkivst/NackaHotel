@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>NackaHotel - Rooms</title>
+    <title>Available Rooms</title>
 </head>
 <body>
-<h2>Search Available Rooms</h2>
+<h1>Available Rooms</h1>
 
-<form action="booking/rooms" method="post">
-    <label for="startDate">Start date</label><br>
-    <input type="date" id="startDate" name="startDate"><br><br>
+<div th:if="${rooms != null}">
+    <h3>Available rooms from <span th:text="${startDate}"></span> to <span th:text="${endDate}"></span></h3>
 
-    <label for="endDate">End date</label><br>
-    <input type="date" id="endDate" name="endDate"><br><br>
+    <ul th:if="${rooms != null and !rooms.isEmpty()}">
+        <li th:each="room : ${rooms}">
+            <span th:text="${room.name}"></span> -
+            <span th:text="${room.type}"></span> -
+            Max guests: <span th:text="${room.maxGuests}"></span>
+            <a th:href="@{/bookings/add(roomId=${room.id}, startDate=${startDate}, endDate=${endDate})}">Book Room</a>
+        </li>
+    </ul>
 
-    <input type="submit" value="Search Rooms">
-</form>
+    <p th:if="${rooms != null and rooms.isEmpty()}">No rooms available for these dates.</p>
+</div>
 
-<p><a href="/">← Back to menu</a></p>
+<br>
+<a href="/booking">Search for other dates</a>
 </body>
 </html>

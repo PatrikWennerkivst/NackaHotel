@@ -8,9 +8,7 @@ import com.example.nackahotel.Repository.CustomerRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +70,12 @@ public class CustomerService {
             if (customer.getFirstName() != null) existingCustomer.setPhoneNumber(customer.getPhoneNumber());
             customerRepository.save(existingCustomer);
         }
+    }
+
+    public List<SimpleCustomerDTO> getAllSimpleCustomers() {
+        return customerRepository.findAll().stream()
+                .map(c -> mapper.customerToSimpleCustomerDTO(c))
+                .toList();
     }
 
 }
