@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -21,8 +22,10 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @RequestMapping("/customers")
-    public List<DetailedCustomerDTO> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public String getAllCustomers(Model model) {
+        List<DetailedCustomerDTO> customers = customerService.getAllCustomers();
+        model.addAttribute("customers", customers);
+        return "allCustomers";
     }
 
     @RequestMapping("/customers/{id}")
@@ -43,11 +46,16 @@ public class CustomerController {
     }
 
     @RequestMapping("/customers/delete/{customerId}")
-    public String deleteCustomerIfNoBooking(@PathVariable Long customerId) {
+    public String deleteCustomerIfNoBooking(@PathVariable Long customerId, RedirectAttributes redirectAttributes) {
         boolean deleted = customerService.deleteCustomerIfNoBooking(customerId);
-        return (deleted)
-                ? ("Customer " + customerId + " deleted successfully")
-                : ("Customer " + customerId + " not found or present in booking(s) and cannot be deleted");
+        if (deleted) {
+            redirectAttributes.addFlashAttribute("message",
+                    "Customer " + customerId + " deleted successfully.");
+        } else {
+            redirectAttributes.addFlashAttribute("error",
+                    "Customer " + customerId + " could not be deleted (existing bookings).");
+        }
+        return "redirect:/customers";
     }
 
     @GetMapping("/formBooking")
@@ -65,15 +73,40 @@ public class CustomerController {
 //        return customerRepository.findAll();
 //    }
 
-    @RequestMapping("/customers/edit/{id}")
-    public String editCustomer(
-            @PathVariable Long id,
-            @RequestParam(required = false) String firstName,
-            @RequestParam(required = false) String lastName,
-            @RequestParam(required = false) String socialSecurityNumber,
-            @RequestParam(required = false) String phoneNumber){
+//    @RequestMapping("/customers/edit/{id}")
+//    public String editCustomer(
+//            @PathVariable Long id,
+//            @RequestParam(required = false) String firstName,
+//            @RequestParam(required = false) String lastName,
+//            @RequestParam(required = false) String socialSecurityNumber,
+//            @RequestParam(required = false) String phoneNumber){
+//
+//        return customerService.updateCustomer(id, firstName, lastName, socialSecurityNumber, phoneNumber);
+//    }
 
-        return customerService.updateCustomer(id, firstName, lastName, socialSecurityNumber, phoneNumber);
+    @PostMapping("/customers/edit/{id}")
+    public String editCustomer(@PathVariable Long id,
+                               @Valid @ModelAttribute("customer") DetailedCustomerDTO customer,
+                               RedirectAttributes redirectAttributes) {
+        customer.setId(id);
+
+        try {
+            customerService.updateCustomer(customer);
+            redirectAttributes.addFlashAttribute("message",
+                    "Customer " + id + " updated successfully.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error",
+                    "Unable to update customer " + id + ". Please ensure all fields are correctly filled out");
+        }
+
+        return "redirect:/customers";
+    }
+
+    @GetMapping("/customers/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        DetailedCustomerDTO customer = customerService.getCustomerById(id);
+        model.addAttribute("customer", customer);
+        return "updateCustomer";
     }
 
     @GetMapping("/createCustomer")
