@@ -39,8 +39,9 @@ public class BookingController {
     }
 
     @RequestMapping("/bookings/delete/{id}")
-    public List<DetailedBookingDTO> deleteBooking(@PathVariable Long id){
-        return bookingService.deleteBooking(id);
+    public String deleteBooking(@PathVariable Long id){
+        bookingService.deleteBooking(id);
+        return "redirect:/bookings";
     }
 
     @PutMapping("/bookings/update/{id}")
