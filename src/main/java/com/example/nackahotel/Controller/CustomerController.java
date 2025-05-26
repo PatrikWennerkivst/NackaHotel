@@ -5,23 +5,27 @@ import com.example.nackahotel.DTO.DetailedCustomerDTO;
 import com.example.nackahotel.Service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService customerService;
 
     @RequestMapping("/customers")
-    public List<DetailedCustomerDTO> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public String getAllCustomers(Model model) {
+        List<DetailedCustomerDTO> customers = customerService.getAllCustomers();
+        model.addAttribute("customers", customers);
+        return "allCustomers";
     }
 
     @RequestMapping("/customers/{id}")
@@ -35,11 +39,16 @@ public class CustomerController {
     }
 
     @RequestMapping("/customers/delete/{customerId}")
-    public String deleteCustomerIfNoBooking(@PathVariable Long customerId) {
+    public String deleteCustomerIfNoBooking(@PathVariable Long customerId, RedirectAttributes redirectAttributes) {
         boolean deleted = customerService.deleteCustomerIfNoBooking(customerId);
-        return (deleted)
-                ? ("Customer " + customerId + " deleted successfully")
-                : ("Customer " + customerId + " not found or present in booking(s) and cannot be deleted");
+        if (deleted) {
+            redirectAttributes.addFlashAttribute("message",
+                    "Customer " + customerId + " deleted successfully.");
+        } else {
+            redirectAttributes.addFlashAttribute("error",
+                    "Customer " + customerId + " could not be deleted (existing bookings).");
+        }
+        return "redirect:/customers";
     }
 
 //    @GetMapping("/customers/addGET")

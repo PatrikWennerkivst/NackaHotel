@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookings</title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: body"></div>
+
+<h1>Rooms</h1>
+
+<ul>
+    <li th:each="room : ${rooms}" style="margin-bottom: 1.5em; padding: 1em; border: 1px solid #ccc; border-radius: 5px;">
+        <div><strong>Room-ID:</strong> <span th:text="${room.id}">id</span></div>
+        <div><strong>Room number:</strong> <span th:text="${room.name}">name</span></div>
+        <div><strong>Room Type:</strong> <span th:text="${room.type}">type</span></div>
+        <div><strong>Max Guests:</strong> <span th:text="${room.maxGuests}">max guests</span></div>
+        <div><strong>Max Extra Beds:</strong> <span th:text="${room.maxExtraBeds}">max extra beds</span></div>
+
+        <div><strong>Bookings:</strong>
+            <ul>
+                <li th:each="booking : ${room.bookings}">
+                    <span th:text="'Booking ' + ${booking.id} + ': ' + ${booking.startDate} + ' - ' + ${booking.endDate}">booking info</span>
+                </li>
+            </ul>
+        </div>
+    </li>
+</ul>
+
+</body>
+</html>
