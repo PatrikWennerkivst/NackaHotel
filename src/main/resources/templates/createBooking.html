@@ -1,18 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org/" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Booking</title>
+    <title>NackaHotel - Create Booking</title>
 </head>
 <body>
 <h1>Create Booking</h1>
 
-<div th:if="${room != null}">
-    <h3>Room Details:</h3>
+<div class="room-info" th:if="${room}">
+    <h3>Selected Room</h3>
     <p><strong>Room:</strong> <span th:text="${room.name}"></span></p>
     <p><strong>Type:</strong> <span th:text="${room.type}"></span></p>
-    <p><strong>Max Guests:</strong> <span th:text="${room.maxGuests}"></span></p>
-    <p><strong>Dates:</strong> <span th:text="${startDate}"></span> to <span th:text="${endDate}"></span></p>
+    <p><strong>Dates:</strong>
+        <span th:text="${bookingDTO.startDate}"></span> to
+        <span th:text="${bookingDTO.endDate}"></span>
+    </p>
 </div>
+
+<form th:action="@{/bookings/add}" method="post" th:object="${bookingDTO}">
+
+    <input type="hidden" th:field="*{roomId}" />
+    <input type="hidden" th:field="*{startDate}" />
+    <input type="hidden" th:field="*{endDate}" />
+
+
+    <label for="customerId">Select Customer:</label><br>
+    <select th:field="*{customerId}" id="customerId" required>
+        <option value="">-- Choose Customer --</option>
+        <option th:each="customer : ${customers}"
+                th:value="${customer.id}"
+                th:text="${customer.firstName + ' ' + customer.lastName}">
+        </option>
+    </select>
+    <span th:if="${#fields.hasErrors('customerId')}"
+          th:errors="*{customerId}" class="text-danger"></span>
+    <br><br>
+
+    <button type="submit">Create Booking</button>
+</form>
+
+<br>
+<a th:href="@{/rooms}">← Back to Rooms</a>
 </body>
 </html>

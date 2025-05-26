@@ -3,8 +3,10 @@ package com.example.nackahotel.Controller;
 import com.example.nackahotel.DTO.BookingDTO;
 import com.example.nackahotel.DTO.DetailedBookingDTO;
 import com.example.nackahotel.DTO.DetailedRoomDTO;
+import com.example.nackahotel.DTO.SimpleCustomerDTO;
 import com.example.nackahotel.Entity.Room;
 import com.example.nackahotel.Service.BookingService;
+import com.example.nackahotel.Service.CustomerService;
 import com.example.nackahotel.Service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class BookingController {
     private final BookingService bookingService;
 
     private final RoomService roomService;
+    private final CustomerService customerService;
 
     @RequestMapping("/bookings")
     @ResponseBody
@@ -55,6 +58,8 @@ public class BookingController {
             model.addAttribute("room", room);
             return "createBooking";
         }
+        bookingService.createBooking(bookingDTO);
+
         return "redirect:/bookings";
     }
 
@@ -68,6 +73,8 @@ public class BookingController {
         // Hämta rummet
         DetailedRoomDTO room = roomService.getRoomById(roomId);
 
+        List<SimpleCustomerDTO> simpleCustomerDTOS = customerService.getAllSimpleCustomers();
+
         // Skapar en ny BookingDTO med dom nya värdena
         BookingDTO bookingDTO = BookingDTO.builder()
                 .roomId(roomId)
@@ -76,6 +83,7 @@ public class BookingController {
                 .build();
 
         model.addAttribute("room", room);
+        model.addAttribute("customers", simpleCustomerDTOS);
         model.addAttribute("bookingDTO", bookingDTO);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);

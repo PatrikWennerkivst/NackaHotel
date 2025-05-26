@@ -2,6 +2,7 @@ package com.example.nackahotel.Service;
 
 import com.example.nackahotel.DTO.CreateCustomerDTO;
 import com.example.nackahotel.DTO.DetailedCustomerDTO;
+import com.example.nackahotel.DTO.SimpleCustomerDTO;
 import com.example.nackahotel.Entity.Customer;
 import com.example.nackahotel.Repository.CustomerRepository;
 import jakarta.validation.Valid;
@@ -58,6 +59,12 @@ public class CustomerService {
             return "Customer " + id + " has been updated";
         } )
                 .orElse("Customer " + id + " was not found");
+    }
+
+    public List<SimpleCustomerDTO> getAllSimpleCustomers() {
+        return customerRepository.findAll().stream()
+                .map(c -> mapper.customerToSimpleCustomerDTO(c))
+                .toList();
     }
 
 }
