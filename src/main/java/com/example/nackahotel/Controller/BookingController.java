@@ -8,20 +8,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class BookingController {
 
     private final BookingService bookingService;
 
     @RequestMapping("/bookings")
-    public List<DetailedBookingDTO> getAllBookings(){
-        return bookingService.getAllBookings();
+    public String getAllBookings(Model model){
+        List<DetailedBookingDTO> bookings = bookingService.getAllBookings();
+        model.addAttribute("bookings", bookings);
+        return "allBookings";
     }
 
     @RequestMapping("/bookings/{id}")

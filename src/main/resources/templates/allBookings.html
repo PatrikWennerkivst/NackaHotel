@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Bookings</title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: body"></div>
+
+<ul>
+  <li th:each="booking : ${bookings}" style="margin-bottom: 1.5em; padding: 1em; border: 1px solid #ccc; border-radius: 5px;">
+    <div><strong>Booking-ID:</strong> <span th:text="${booking.id}">id</span></div>
+    <div><strong>Start date:</strong> <span th:text="${booking.startDate}">date</span></div>
+    <div><strong>End date:</strong> <span th:text="${booking.endDate}">date</span></div>
+    <div><strong>Customer:</strong> <span th:text="|${booking.customer.firstName} ${booking.customer.lastName}|">name</span></div>
+    <div><strong>Room:</strong> <span th:text="${booking.room.name + ', ' + booking.room.type}">room</span> </div>
+
+
+    <div>
+      <a th:href="@{'/bookings/X' + ${booking.id}}">Edit</a> | <!-- Lägg till länk till update booking thymeleaf-->
+      <a th:href="@{'/bookings/delete/' + ${booking.id}}">Delete</a>
+    </div>
+  </li>
+</ul>
+
+</body>
+</html>
