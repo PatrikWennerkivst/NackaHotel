@@ -2,6 +2,7 @@ package com.example.nackahotel.Service;
 
 import com.example.nackahotel.DTO.CreateCustomerDTO;
 import com.example.nackahotel.DTO.DetailedCustomerDTO;
+import com.example.nackahotel.DTO.SimpleCustomerDTO;
 import com.example.nackahotel.Entity.Customer;
 import com.example.nackahotel.Repository.CustomerRepository;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,18 +48,30 @@ public class CustomerService {
         return deletedCount > 0;
     }
 
-    public String updateCustomer(Long id, String firstName, String lastName,
-                                 String socialSecurityNumber, String phoneNumber) {
-        return customerRepository.findById(id).map(customer -> {
-            if (firstName != null) customer.setFirstName(firstName);
-            if (lastName != null) customer.setLastName(lastName);
-            if (socialSecurityNumber != null) customer.setSocialSecurityNumber(socialSecurityNumber);
-            if (phoneNumber != null) customer.setPhoneNumber(phoneNumber);
+//    public String updateCustomer(Long id, String firstName, String lastName,
+//                                 String socialSecurityNumber, String phoneNumber) {
+//        return customerRepository.findById(id).map(customer -> {
+//            if (firstName != null) customer.setFirstName(firstName);
+//            if (lastName != null) customer.setLastName(lastName);
+//            if (socialSecurityNumber != null) customer.setSocialSecurityNumber(socialSecurityNumber);
+//            if (phoneNumber != null) customer.setPhoneNumber(phoneNumber);
+//
+//            customerRepository.save(customer);
+//            return "Customer " + id + " has been updated";
+//        } )
+//                .orElse("Customer " + id + " was not found");
+//    }
 
-            customerRepository.save(customer);
-            return "Customer " + id + " has been updated";
-        } )
-                .orElse("Customer " + id + " was not found");
+    public void updateCustomer (DetailedCustomerDTO customer) {
+        Customer existingCustomer = customerRepository.findById(customer.getId()).orElse(null);
+
+        if (existingCustomer != null) {
+            if (customer.getFirstName() != null) existingCustomer.setFirstName(customer.getFirstName());
+            if (customer.getFirstName() != null) existingCustomer.setLastName(customer.getLastName());
+            if (customer.getFirstName() != null) existingCustomer.setSocialSecurityNumber(customer.getSocialSecurityNumber());
+            if (customer.getFirstName() != null) existingCustomer.setPhoneNumber(customer.getPhoneNumber());
+            customerRepository.save(existingCustomer);
+        }
     }
 
 }
