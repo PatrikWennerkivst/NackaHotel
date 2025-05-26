@@ -4,12 +4,7 @@ import com.example.nackahotel.DTO.*;
 import com.example.nackahotel.Entity.Booking;
 import com.example.nackahotel.Entity.Customer;
 import com.example.nackahotel.Entity.Room;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
@@ -29,6 +24,8 @@ public class Mapper {
                 .id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
+                .customerId(booking.getCustomer().getId())
+                .roomId(booking.getRoom().getId())
                 .build();
     }
 

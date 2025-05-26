@@ -38,6 +38,11 @@ public class BookingService {
                 bookingRepository.findById(id).orElse(null));
     }
 
+    public BookingDTO getBookingDTOById(Long id) {
+        return mapper.bookingToBookingDTO(
+                bookingRepository.findById(id).orElse(null));
+    }
+
     public DetailedBookingDTO createBooking (@Valid BookingDTO bookingDTO) {
         Customer customer = customerRepository
                 .findById(bookingDTO.getCustomerId()).orElse(null);
@@ -74,13 +79,15 @@ public class BookingService {
         if (bookingDTO.getEndDate() != null) booking.setEndDate(bookingDTO.getEndDate());
 
         if (bookingDTO.getCustomerId() != null) {
-            Customer customer = customerRepository
-                    .findById(bookingDTO.getCustomerId()).orElse(null);
+            Customer customer = customerRepository.findById(bookingDTO.getCustomerId())
+                    .orElseThrow(() -> new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "Customer with ID " + bookingDTO.getCustomerId() + " not found"));
             booking.setCustomer(customer);
         }
         if (bookingDTO.getRoomId() != null) {
-            Room room = roomRepository.
-                    findById(bookingDTO.getRoomId()).orElse(null);
+            Room room = roomRepository.findById(bookingDTO.getRoomId())
+                    .orElseThrow(() -> new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "Room with ID " + bookingDTO.getRoomId() + " not found"));
             booking.setRoom(room);
         }
         bookingRepository.save(booking);

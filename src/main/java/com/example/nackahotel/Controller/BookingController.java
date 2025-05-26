@@ -5,15 +5,13 @@ import com.example.nackahotel.DTO.DetailedBookingDTO;
 import com.example.nackahotel.Service.BookingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -46,10 +44,33 @@ public class BookingController {
         return "redirect:/bookings";
     }
 
-    @PutMapping("/bookings/update/{id}")
-    public DetailedBookingDTO updateBooking(@PathVariable Long id,
-                                          @Valid @RequestBody BookingDTO updateRequest){
-        return bookingService.updateBooking(id, updateRequest);
+    @PostMapping("/bookings/update/{id}")
+    public String updateBooking(@PathVariable Long id,
+                                @Valid @ModelAttribute("booking") BookingDTO updateRequest,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes,
+                                Model model){
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("booking", updateRequest);
+            return "updateBooking";
+        }
+
+        try {
+            bookingService.updateBooking(id, updateRequest);
+            redirectAttributes.addFlashAttribute("message",
+                    "Booking " + id + " updated successfully.");
+        } catch (ResponseStatusException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getReason());
+        }
+        return "redirect:/bookings";
+    }
+
+    @GetMapping("/bookings/update/{id}")
+    public String showUpdateForm(@PathVariable Long id, Model model) {
+        BookingDTO booking = bookingService.getBookingDTOById(id);
+        model.addAttribute("booking", booking);
+        return "updateBooking";
     }
 
 
