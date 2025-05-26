@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a Booking</title>
+</head>
+<body>
+
+<h1>Create a Booking</h1>
+
+<form action="/bookings/add" method="post">
+    <label for="startDate">Start Date:</label><br>
+    <input type="date" id="startDate" name="startDate" required><br><br>
+
+    <label for="endDate">End Date:</label><br>
+    <input type="date" id="endDate" name="endDate" required><br><br>
+
+    <label for="customerId">Customer ID:</label><br>
+    <input type="number" id="customerId" name="customerId" required><br><br>
+
+    <label for="roomId">Room ID:</label><br>
+    <input type="number" id="roomId" name="roomId" required><br><br>
+
+    <input type="submit" value="Create Booking">
+</form>
+
+<br>
+<a href="/menu">← Back to menu</a>
+
+</body>
+</html>

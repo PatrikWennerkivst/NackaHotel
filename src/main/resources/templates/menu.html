@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Huvudmeny</title>
+</head>
+<body>
+<h1>Welcome!</h1>
+
+<nav>
+  <ul>
+    <li><a th:href="@{/customers}">SHOW CUSTOMERS</a></li>
+    <li><a th:href="@{/rooms}">SHOW ROOMS</a></li>
+    <li><a th:href="@{/bookings}">SHOW BOOKINGS</a></li>
+    <li><a th:href="@{/formBooking}">CREATE A BOOKING</a></li>
+  </ul>
+</nav>
+
+<br>
+<a th:href="@{/}">← BACK TO THE START MENU</a>
+</body>
+</html>

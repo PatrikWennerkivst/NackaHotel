@@ -5,6 +5,7 @@ import com.example.nackahotel.DTO.DetailedCustomerDTO;
 import com.example.nackahotel.Service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,8 +57,14 @@ public class CustomerController {
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String socialSecurityNumber,
-            @RequestParam(required = false) String phonNumber){
+            @RequestParam(required = false) String phoneNumber){
 
-        return customerService.updateCustomer(id, firstName, lastName, socialSecurityNumber, phonNumber);
+        return customerService.updateCustomer(id, firstName, lastName, socialSecurityNumber, phoneNumber);
     }
+
+    @GetMapping("/formBooking")
+        public String showCustomerForm() {
+//            model.addAttribute("createCustomerDTO", new CreateCustomerDTO());
+            return "formBooking";
+        }
 }

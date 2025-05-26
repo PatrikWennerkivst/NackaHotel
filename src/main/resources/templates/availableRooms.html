@@ -5,6 +5,18 @@
     <title>NackaHotel - Rooms</title>
 </head>
 <body>
-Available rooms
+<h2>Search Available Rooms</h2>
+
+<form action="booking/rooms" method="post">
+    <label for="startDate">Start date</label><br>
+    <input type="date" id="startDate" name="startDate"><br><br>
+
+    <label for="endDate">End date</label><br>
+    <input type="date" id="endDate" name="endDate"><br><br>
+
+    <input type="submit" value="Search Rooms">
+</form>
+
+<p><a href="/">← Back to menu</a></p>
 </body>
 </html>

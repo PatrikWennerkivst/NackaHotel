@@ -24,4 +24,9 @@ public class HomeController {
         model.addAttribute("phoneNumber", phoneNumber);
         return "customerCreated";
     }
+
+    @RequestMapping("/")
+    public String showMenu() {
+        return "menu";
+    }
 }

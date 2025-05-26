@@ -45,6 +45,8 @@ public class BookingController {
         return bookingService.updateBooking(id, updateRequest);
     }
 
+
+
 //    @GetMapping("/bookings/check") //kollar om rummet redan är bokat elr itt (kopplat till overlapping)
 //    public ResponseEntity<String> checkAvailability(
 //            @RequestParam Long roomId,

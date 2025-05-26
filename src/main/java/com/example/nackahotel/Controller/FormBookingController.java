@@ -11,10 +11,10 @@ import java.time.LocalDate;
 @Controller
 public class FormBookingController {
 
-    @RequestMapping("booking")
-    public String formBooking() {
-        return "formBooking";
-    }
+//    @RequestMapping("booking")
+//    public String formBooking() {
+//        return "formBooking";
+//    }
 
     @PostMapping("booking/rooms")
     public String formBookingReceiver(@RequestParam LocalDate startDate,
