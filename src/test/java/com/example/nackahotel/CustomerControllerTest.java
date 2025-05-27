@@ -1,6 +1,5 @@
 package com.example.nackahotel;
 
-import com.example.nackahotel.DTO.CreateCustomerDTO;
 import com.example.nackahotel.Entity.Booking;
 import com.example.nackahotel.Entity.Customer;
 import com.example.nackahotel.Entity.Room;
@@ -8,14 +7,11 @@ import com.example.nackahotel.Entity.RoomType;
 import com.example.nackahotel.Repository.BookingRepository;
 import com.example.nackahotel.Repository.CustomerRepository;
 import com.example.nackahotel.Repository.RoomRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import com.example.nackahotel.Repository.CustomerRepository;;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 
 import org.springframework.test.context.TestPropertySource;
@@ -26,7 +22,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,7 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
-//@Transactional // gör så att alla ändringar återställs efter körning
+
+@Transactional // gör så att alla ändringar återställs efter körning
 public class CustomerControllerTest {
 
     @Autowired
@@ -46,11 +42,8 @@ public class CustomerControllerTest {
     private CustomerRepository customerRepository;
 
     @Autowired
-    private ObjectMapper objectMapper;
-//    @Autowired
-//    private CommandLineRunner customer;
-    @Autowired
     private RoomRepository roomRepository;
+
     @Autowired
     private BookingRepository bookingRepository;
 
@@ -92,6 +85,7 @@ public class CustomerControllerTest {
         booking.setRoom(room);
         bookingRepository.save(booking);
     }
+
     @Test
     public void testAddCustomer() throws Exception {
 
@@ -106,6 +100,40 @@ public class CustomerControllerTest {
         // kollar så att en customer har lagts till i db
         assertEquals(initialCount + 1, customerRepository.count());
     }
+
+    @Test
+    void editCustomer() throws Exception {
+        Long customerId = customerWithBooking.getId();
+
+        this.mockMvc.perform(post("/customers/edit/" + customerId)
+                        .param("firstName", "Bob")
+                        .param("lastName", "Smith"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/customers"))
+                .andExpect(flash().attribute("message", "Customer "
+                                                        + customerId + " updated successfully."));
+
+
+        assertThat(customerRepository.findById(customerId).get().getFirstName()).isEqualTo("Bob");
+        assertThat(customerRepository.findById(customerId).get().getLastName()).isEqualTo("Smith");
+    }
+
+    @Test
+    void showEditForm() throws Exception {
+        Long customerId = customerWithBooking.getId();
+
+        this.mockMvc.perform(get("/customers/edit/" + customerId))
+                .andExpect(status().isOk())
+                .andExpect(view().name("updateCustomer"));
+    }
+
+    @Test
+    public void testGetAllCustomers() throws Exception {
+        mockMvc.perform(get("/customers"))
+                .andExpect(status().isOk());
+
+    }
+
     @Test
     void deleteCustomerIfNoBooking_withBooking() throws Exception {
         Long customerId = customerWithBooking.getId();
@@ -113,7 +141,7 @@ public class CustomerControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/customers"))
                 .andExpect(flash().attribute("error", "Customer "
-                        + customerId + " could not be deleted (existing bookings)."));
+                                                      + customerId + " could not be deleted (existing bookings)."));
 
         Optional<Customer> existingCustomer = customerRepository.findById(customerId);
         assertThat(existingCustomer).isPresent();
@@ -128,41 +156,7 @@ public class CustomerControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/customers"))
                 .andExpect(flash().attribute("message", "Customer "
-                        + customerId + " deleted successfully."));
-    }
-
-    @Test
-    void showEditForm() throws Exception {
-        Long customerId = customerWithBooking.getId();
-
-        this.mockMvc.perform(get("/customers/edit/" + customerId))
-                .andExpect(status().isOk())
-                .andExpect(view().name("updateCustomer"));
-    }
-
-    @Test
-    void editCustomer() throws Exception {
-        Long customerId = customerWithBooking.getId();
-
-        this.mockMvc.perform(post("/customers/edit/" + customerId)
-                .param("firstName", "Bob")
-                .param("lastName", "Smith"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/customers"))
-                .andExpect(flash().attribute("message", "Customer "
-                        + customerId + " updated successfully."));
-
-
-        assertThat(customerRepository.findById(customerId).get().getFirstName()).isEqualTo("Bob");
-        assertThat(customerRepository.findById(customerId).get().getLastName()).isEqualTo("Smith");
-    }
-
-
-    @Test
-    public void testGetAllCustomers() throws Exception {
-        mockMvc.perform(get("/customers"))
-                .andExpect(status().isOk());
-
+                                                        + customerId + " deleted successfully."));
     }
 
 }
