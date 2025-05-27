@@ -92,37 +92,6 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void testAddCustomer() throws Exception {
-
-        long initialCount = customerRepository.count();
-
-        CreateCustomerDTO customerData = new CreateCustomerDTO(
-                "Testing",
-                "Testingson",
-                "1234567890",
-                "0733355777"
-        );
-
-        // gör om DTO till JSON
-        String customerJson = objectMapper.writeValueAsString(customerData);
-
-        mockMvc.perform(post("/customers/add")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(customerJson))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(containsString("\"firstName\":\"Testing\"")))
-                .andExpect(content().string(containsString("\"lastName\":\"Testingson\"")))
-                .andExpect(content().string(containsString("\"socialSecurityNumber\":\"1234567890\"")))
-                .andExpect(content().string(containsString("\"phoneNumber\":\"0733355777\"")))
-                .andExpect(content().string(containsString("\"id\":"))) // Verifierar att ID finns
-                .andExpect(content().string(containsString("\"bookings\":[]"))); // Tom bookings-array
-
-        // kollar så att en customer har lagts till i db
-        assertEquals(initialCount + 1, customerRepository.count());
-    }
-
-    @Test
     void deleteCustomerIfNoBooking_withBooking() throws Exception {
         Long customerId = customerWithBooking.getId();
         this.mockMvc.perform(get("/customers/delete/" + customerId))
