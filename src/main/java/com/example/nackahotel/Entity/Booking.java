@@ -61,7 +61,7 @@ public class Booking {
 
         // Enkel validering för dubbelrum
         if (room.getType() == RoomType.DOUBLE && extraNeeded > 2) {
-            throw new IllegalArgumentException("Dubbelrum kan max ha 2 extrasängar");
+            throw new IllegalArgumentException("DOUBLE ROOM CAN ONLY HAVE 2 EXTRA BEDS");
         }
 
         this.extraBeds = extraNeeded;
