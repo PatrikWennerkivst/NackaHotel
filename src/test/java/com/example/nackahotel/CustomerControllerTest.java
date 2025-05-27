@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -146,6 +145,30 @@ public class CustomerControllerTest {
                 .andExpect(redirectedUrl("/customers"))
                 .andExpect(flash().attribute("message", "Customer "
                         + customerId + " deleted successfully."));
+    }
+
+    @Test
+    void showEditForm() throws Exception {
+        Long customerId = customerWithBooking.getId();
+
+        this.mockMvc.perform(get("/customers/edit/" + customerId))
+                .andExpect(status().isOk())
+                .andExpect(view().name("updateCustomer"));
+    }
+
+    @Test
+    void editCustomer() throws Exception {
+        Long customerId = customerWithBooking.getId();
+
+        this.mockMvc.perform(post("/customers/edit/" + customerId)
+                .param("firstName", "Bob")
+                .param("lastName", "Smith"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/customers"))
+                .andExpect(flash().attribute("message", "Customer "
+                        + customerId + " updated successfully."));
+
+        assertThat(customerRepository.findById(customerId).get().getFirstName()).isEqualTo("Bob");
     }
 
 }
