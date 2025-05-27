@@ -169,6 +169,7 @@ public class CustomerControllerTest {
                         + customerId + " updated successfully."));
 
         assertThat(customerRepository.findById(customerId).get().getFirstName()).isEqualTo("Bob");
+        assertThat(customerRepository.findById(customerId).get().getLastName()).isEqualTo("Smith");
     }
 
 }
