@@ -42,7 +42,7 @@ public class CustomerController {
         model.addAttribute("lastName", lastName);
         model.addAttribute("socialSecurityNumber", socialSecurityNumber);
         model.addAttribute("phoneNumber", phoneNumber);
-        return "createCustomer";
+        return "redirect:/formBooking";
     }
 
     @RequestMapping("/customers/delete/{customerId}")

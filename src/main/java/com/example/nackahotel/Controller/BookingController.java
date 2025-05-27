@@ -66,7 +66,7 @@ public class BookingController {
         }
         bookingService.createBooking(bookingDTO);
 
-        return "redirect:/bookings";
+        return "allBookings";
     }
 
     @GetMapping("/bookings/add")
@@ -94,7 +94,7 @@ public class BookingController {
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
 
-        return "createBooking";
+        return "allBookings";
     }
     @RequestMapping("/bookings/delete/{id}")
     public String deleteBooking(@PathVariable Long id, RedirectAttributes redirectAttributes){
