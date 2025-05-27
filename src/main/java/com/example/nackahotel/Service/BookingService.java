@@ -111,16 +111,4 @@ public class BookingService {
         return !start1.isAfter(end2) && !start2.isAfter(end1);
     }
 
-    public boolean isRoomAvailable(Long roomId, LocalDate startDate, LocalDate endDate) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found on this date."));
-
-        for (Booking booking : room.getBookings()) {
-            if (datesOverlap(startDate, endDate, booking.getStartDate(), booking.getEndDate())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }

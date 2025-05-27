@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -60,29 +59,8 @@ public class CustomerController {
 
     @GetMapping("/formBooking")
         public String showCustomerForm() {
-//            model.addAttribute("createCustomerDTO", new CreateCustomerDTO());
             return "formBooking";
         }
-
-    //    @GetMapping("/customers/addGET")
-//    public List<Customer> addCustomerGet(@Valid @RequestParam String firstName,
-//                                         @Valid @RequestParam String lastName,
-//                                         @Valid @RequestParam String socialSecurityNumber,
-//                                         @Valid @RequestParam String phoneNumber) {
-//        customerRepository.save(new Customer(firstName, lastName, socialSecurityNumber, phoneNumber));
-//        return customerRepository.findAll();
-//    }
-
-//    @RequestMapping("/customers/edit/{id}")
-//    public String editCustomer(
-//            @PathVariable Long id,
-//            @RequestParam(required = false) String firstName,
-//            @RequestParam(required = false) String lastName,
-//            @RequestParam(required = false) String socialSecurityNumber,
-//            @RequestParam(required = false) String phoneNumber){
-//
-//        return customerService.updateCustomer(id, firstName, lastName, socialSecurityNumber, phoneNumber);
-//    }
 
     @PostMapping("/customers/edit/{id}")
     public String editCustomer(@PathVariable Long id,
@@ -113,4 +91,5 @@ public class CustomerController {
     public String showBookingForm(Model model) {
         return "createCustomer";
     }
+
 }

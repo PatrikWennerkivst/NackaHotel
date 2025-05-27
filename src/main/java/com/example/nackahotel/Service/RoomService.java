@@ -1,7 +1,6 @@
 package com.example.nackahotel.Service;
 
 import com.example.nackahotel.DTO.DetailedRoomDTO;
-import com.example.nackahotel.Entity.RoomType;
 import com.example.nackahotel.Repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

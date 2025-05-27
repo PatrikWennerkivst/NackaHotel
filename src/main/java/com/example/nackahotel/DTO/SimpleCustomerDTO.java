@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//used for a simpler customer output
-
 @Data
 @Builder
 @AllArgsConstructor

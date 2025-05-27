@@ -4,18 +4,12 @@ import com.example.nackahotel.DTO.BookingDTO;
 import com.example.nackahotel.DTO.DetailedBookingDTO;
 import com.example.nackahotel.DTO.DetailedRoomDTO;
 import com.example.nackahotel.DTO.SimpleCustomerDTO;
-import com.example.nackahotel.Entity.Room;
 import com.example.nackahotel.Service.BookingService;
 import com.example.nackahotel.Service.CustomerService;
 import com.example.nackahotel.Service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,12 +21,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-//@RestControlle
 @RequiredArgsConstructor
 public class BookingController {
 
     private final BookingService bookingService;
-
     private final RoomService roomService;
     private final CustomerService customerService;
 
@@ -48,12 +40,6 @@ public class BookingController {
         return bookingService.getBookingById(id);
     }
 
-    /*@PostMapping("/bookings/add")
-    public DetailedBookingDTO addBooking(@Valid @RequestBody BookingDTO bookingDTO){
-        return bookingService.createBooking(bookingDTO);
-    }
-
-     */
     @PostMapping("/bookings/add")
     public String createBooking(@Valid @ModelAttribute BookingDTO bookingDTO,
                                 BindingResult result,
@@ -96,6 +82,7 @@ public class BookingController {
 
         return "createBooking";
     }
+
     @RequestMapping("/bookings/delete/{id}")
     public String deleteBooking(@PathVariable Long id, RedirectAttributes redirectAttributes){
         bookingService.deleteBooking(id);
@@ -132,23 +119,6 @@ public class BookingController {
         return "updateBooking";
     }
 
-//    @GetMapping("/bookings/check") //kollar om rummet redan är bokat elr itt (kopplat till overlapping)
-//    public ResponseEntity<String> checkAvailability(
-//            @RequestParam Long roomId,
-//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-//
-//        boolean isAvailable = bookingService.isRoomAvailable(roomId, startDate, endDate);
-//
-//        if (isAvailable) {
-//            return ResponseEntity.ok("The room is available.");
-//        } else {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("The room is already booked.");
-//        }
-//    }
-
-    // Visar alla bookingar som HTML
-
     // Visar lediga rum för booking
     @GetMapping("/booking/rooms")
     public String getAvailableRoomsForBooking(
@@ -167,11 +137,12 @@ public class BookingController {
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
 
-        return "availableRooms.html";
+        return "availableRooms";
     }
 
     @RequestMapping("/bookings/search")
     public String showFormBooking() {
         return "formBooking";
     }
+
 }
