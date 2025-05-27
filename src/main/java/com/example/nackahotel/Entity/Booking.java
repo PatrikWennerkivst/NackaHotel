@@ -40,7 +40,7 @@ public class Booking {
     @JsonBackReference
     private Room room;
 
-    public Booking (LocalDate startDate, LocalDate endDate,  int numberOfGuests ,Customer customer, Room room) {
+    public Booking(LocalDate startDate, LocalDate endDate, int numberOfGuests, Customer customer, Room room) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.numberOfGuests = numberOfGuests;
@@ -57,10 +57,13 @@ public class Booking {
         } else {
             bedCapacity = 1;
         }
-        this.extraBeds = Math.max(0, numberOfGuests - bedCapacity);
+        int extraNeeded = Math.max(0, numberOfGuests - bedCapacity);
 
+        // Enkel validering för dubbelrum
+        if (room.getType() == RoomType.DOUBLE && extraNeeded > 2) {
+            throw new IllegalArgumentException("Dubbelrum kan max ha 2 extrasängar");
+        }
+
+        this.extraBeds = extraNeeded;
     }
-
-
-
 }

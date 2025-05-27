@@ -62,14 +62,18 @@ public class BookingService {
             }
         }
 
-        Booking booking = new Booking(
-                bookingDTO.getStartDate(),
-                bookingDTO.getEndDate(),
-                bookingDTO.getNumberOfGuests(),
-                customer,
-                room);
-        bookingRepository.save(booking);
-        return mapper.bookingToDetailedBookingDTO(booking);
+        try {
+            Booking booking = new Booking(
+                    bookingDTO.getStartDate(),
+                    bookingDTO.getEndDate(),
+                    bookingDTO.getNumberOfGuests(),
+                    customer,
+                    room);
+            bookingRepository.save(booking);
+            return mapper.bookingToDetailedBookingDTO(booking);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     public DetailedBookingDTO updateBooking (Long id, BookingDTO bookingDTO) {
