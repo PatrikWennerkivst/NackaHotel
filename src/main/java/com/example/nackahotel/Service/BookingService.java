@@ -65,6 +65,7 @@ public class BookingService {
         Booking booking = new Booking(
                 bookingDTO.getStartDate(),
                 bookingDTO.getEndDate(),
+                bookingDTO.getNumberOfGuests(),
                 customer,
                 room);
         bookingRepository.save(booking);
