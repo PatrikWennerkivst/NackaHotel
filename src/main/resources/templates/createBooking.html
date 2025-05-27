@@ -11,6 +11,7 @@
     <h3>Selected Room</h3>
     <p><strong>Room:</strong> <span th:text="${room.name}"></span></p>
     <p><strong>Type:</strong> <span th:text="${room.type}"></span></p>
+    <p><strong>Max Guests:</strong> <span th:text="${room.maxGuests}"></span></p>
     <p><strong>Dates:</strong>
         <span th:text="${bookingDTO.startDate}"></span> to
         <span th:text="${bookingDTO.endDate}"></span>
@@ -23,6 +24,12 @@
     <input type="hidden" th:field="*{startDate}" />
     <input type="hidden" th:field="*{endDate}" />
 
+    <label for="numberOfGuests">Number of Guests:</label><br>
+    <input type="number" th:field="*{numberOfGuests}" id="numberOfGuests"
+           min="1" max="10" required />
+    <span th:if="${#fields.hasErrors('numberOfGuests')}"
+          th:errors="*{numberOfGuests}" class="text-danger"></span>
+    <br><br>
 
     <label for="customerId">Select Customer:</label><br>
     <select th:field="*{customerId}" id="customerId" required>

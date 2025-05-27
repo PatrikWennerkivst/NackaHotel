@@ -22,6 +22,12 @@ public class Booking {
     private LocalDate startDate;
 
     @Column(nullable = false)
+    private int extraBeds = 0;
+
+    @Column(nullable = false)
+    private int numberOfGuests;
+
+    @Column(nullable = false)
     private LocalDate endDate;
 
     @ManyToOne
@@ -34,12 +40,30 @@ public class Booking {
     @JsonBackReference
     private Room room;
 
-    public Booking (LocalDate startDate, LocalDate endDate, Customer customer, Room room) {
+    public Booking(LocalDate startDate, LocalDate endDate, int numberOfGuests, Customer customer, Room room) {
         this.startDate = startDate;
         this.endDate = endDate;
+        this.numberOfGuests = numberOfGuests;
         this.customer = customer;
         this.room = room;
+
+        int bedCapacity;
+        if (room.getType() == RoomType.SINGLE) {
+            bedCapacity = 1;
+        } else if (room.getType() == RoomType.DOUBLE) {
+            bedCapacity = 2;
+        } else if (room.getType() == RoomType.SUITE) {
+            bedCapacity = 4;
+        } else {
+            bedCapacity = 1;
+        }
+        int extraNeeded = Math.max(0, numberOfGuests - bedCapacity);
+
+        // Enkel validering för dubbelrum
+        if (room.getType() == RoomType.DOUBLE && extraNeeded > 2) {
+            throw new IllegalArgumentException("DOUBLE ROOM CAN ONLY HAVE 2 EXTRA BEDS");
+        }
+
+        this.extraBeds = extraNeeded;
     }
-
-
 }

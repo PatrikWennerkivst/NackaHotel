@@ -14,5 +14,7 @@ public class DetailedBookingDTO {
     private LocalDate endDate;
     private SimpleCustomerDTO customer;
     private SimpleRoomDTO room;
+    private int numberOfGuests;
+    private int extraBeds;
 
 }
