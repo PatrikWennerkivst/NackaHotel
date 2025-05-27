@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NackaHotel - Booking Confirmation</title>
+</head>
+<body>
+
+<h1>Thank you for your booking!</h1>
+
+<h3>Booking Details</h3>
+<p><strong>Room:</strong> <span th:text="${booking.roomName}"></span></p>
+<p><strong>Room Type:</strong> <span th:text="${booking.roomType}"></span></p>
+<p><strong>Number of Guests:</strong> <span th:text="${booking.numberOfGuests} + ' persons'"></span></p>
+<p><strong>Extra Beds:</strong> <span th:text="${booking.extraBeds} + ' extra beds included'"></span></p>
+<p><strong>Check-in:</strong> <span th:text="${booking.startDate}"></span></p>
+<p><strong>Check-out:</strong> <span th:text="${booking.endDate}"></span></p>
+<p><strong>Customer:</strong> <span th:text="${booking.customerFirstName} + ' ' + ${booking.customerLastName}"></span></p>
+<p><strong>Booking ID:</strong> <span th:text="${booking.id}"></span></p>
+
+<br>
+<a th:href="@{/bookings}">View All Bookings</a> |
+<a th:href="@{/booking/rooms}">Book Another Room</a>
+
+</body>
+</html>
