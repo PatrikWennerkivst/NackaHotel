@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
-@Transactional // gör så att alla ändringar återställs efter körning
+//@Transactional // gör så att alla ändringar återställs efter körning
 public class CustomerControllerTest {
 
     @Autowired
@@ -92,7 +92,20 @@ public class CustomerControllerTest {
         booking.setRoom(room);
         bookingRepository.save(booking);
     }
+    @Test
+    public void testAddCustomer() throws Exception {
 
+        long initialCount = customerRepository.count();
+        mockMvc.perform(post("/customers/add")
+                        .param("firstName", "Testing")
+                        .param("lastName", "Testingson")
+                        .param("socialSecurityNumber", "1234567890")
+                        .param("phoneNumber", "0733355777"))
+                .andExpect(status().is3xxRedirection());
+
+        // kollar så att en customer har lagts till i db
+        assertEquals(initialCount + 1, customerRepository.count());
+    }
     @Test
     void deleteCustomerIfNoBooking_withBooking() throws Exception {
         Long customerId = customerWithBooking.getId();
@@ -143,20 +156,7 @@ public class CustomerControllerTest {
         assertThat(customerRepository.findById(customerId).get().getFirstName()).isEqualTo("Bob");
         assertThat(customerRepository.findById(customerId).get().getLastName()).isEqualTo("Smith");
     }
-    @Test
-    public void testAddCustomer() throws Exception {
 
-    long initialCount = customerRepository.count();
-    mockMvc.perform(post("/customers/add")
-                        .param("firstName", "Testing")
-                        .param("lastName", "Testingson")
-                        .param("socialSecurityNumber", "1234567890")
-                        .param("phoneNumber", "0733355777"))
-            .andExpect(status().isOk());
-
-        // kollar så att en customer har lagts till i db
-        assertEquals(initialCount + 1, customerRepository.count());
-    }
 
     @Test
     public void testGetAllCustomers() throws Exception {
