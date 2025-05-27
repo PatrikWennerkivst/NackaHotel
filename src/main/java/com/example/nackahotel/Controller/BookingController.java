@@ -64,9 +64,9 @@ public class BookingController {
             model.addAttribute("room", room);
             return "createBooking";
         }
-        bookingService.createBooking(bookingDTO);
-
-        return "redirect:/bookings";
+        DetailedBookingDTO savedBooking = bookingService.createBooking(bookingDTO);
+        model.addAttribute("booking", savedBooking);
+        return "bookingConfirmation";
     }
 
     @GetMapping("/bookings/add")
@@ -168,5 +168,10 @@ public class BookingController {
         model.addAttribute("endDate", endDate);
 
         return "availableRooms.html";
+    }
+
+    @RequestMapping("/bookings/search")
+    public String showFormBooking() {
+        return "formBooking";
     }
 }

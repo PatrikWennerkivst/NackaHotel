@@ -9,13 +9,13 @@
 <h1>Thank you for your booking!</h1>
 
 <h3>Booking Details</h3>
-<p><strong>Room:</strong> <span th:text="${booking.roomName}"></span></p>
-<p><strong>Room Type:</strong> <span th:text="${booking.roomType}"></span></p>
-<p><strong>Number of Guests:</strong> <span th:text="${booking.numberOfGuests} + ' persons'"></span></p>
-<p><strong>Extra Beds:</strong> <span th:text="${booking.extraBeds} + ' extra beds included'"></span></p>
+<p><strong>Room:</strong> <span th:text="${booking.room.name}"></span></p>
+<p><strong>Room Type:</strong> <span th:text="${booking.room.type}"></span></p>
+<p><strong>Number of Guests:</strong> <span th:text="|${booking.numberOfGuests} persons|"></span></p>
+<p><strong>Extra Beds:</strong> <span th:text="|${booking.extraBeds} extra beds included|"></span></p>
 <p><strong>Check-in:</strong> <span th:text="${booking.startDate}"></span></p>
 <p><strong>Check-out:</strong> <span th:text="${booking.endDate}"></span></p>
-<p><strong>Customer:</strong> <span th:text="${booking.customerFirstName} + ' ' + ${booking.customerLastName}"></span></p>
+<p><strong>Customer:</strong> <span th:text="${booking.customer.firstName + ' ' + booking.customer.lastName}"></span></p>
 <p><strong>Booking ID:</strong> <span th:text="${booking.id}"></span></p>
 
 <br>

@@ -36,6 +36,8 @@ public class Mapper {
                 .endDate(booking.getEndDate())
                 .customer(customerToSimpleCustomerDTO(booking.getCustomer()))
                 .room(roomToSimpleRoomDTO(booking.getRoom()))
+                .extraBeds(booking.getExtraBeds())
+                .numberOfGuests(booking.getNumberOfGuests())
                 .build();
     }
 
