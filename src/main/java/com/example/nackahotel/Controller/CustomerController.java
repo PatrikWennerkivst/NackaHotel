@@ -41,7 +41,7 @@ public class CustomerController {
         model.addAttribute("lastName", lastName);
         model.addAttribute("socialSecurityNumber", socialSecurityNumber);
         model.addAttribute("phoneNumber", phoneNumber);
-        return "redirect:/formBooking";
+        return "redirect:/customers";
     }
 
     @RequestMapping("/customers/delete/{customerId}")
