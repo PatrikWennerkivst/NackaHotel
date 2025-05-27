@@ -10,12 +10,14 @@ import com.example.nackahotel.Repository.CustomerRepository;
 import com.example.nackahotel.Repository.RoomRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import com.example.nackahotel.Repository.CustomerRepository;;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test.properties") // för att
+@TestPropertySource(locations = "classpath:application-test.properties")
 @Transactional // gör så att alla ändringar återställs efter körning
 public class CustomerControllerTest {
 
@@ -137,8 +139,30 @@ public class CustomerControllerTest {
                 .andExpect(flash().attribute("message", "Customer "
                         + customerId + " updated successfully."));
 
+
         assertThat(customerRepository.findById(customerId).get().getFirstName()).isEqualTo("Bob");
         assertThat(customerRepository.findById(customerId).get().getLastName()).isEqualTo("Smith");
+    }
+    @Test
+    public void testAddCustomer() throws Exception {
+
+    long initialCount = customerRepository.count();
+    mockMvc.perform(post("/customers/add")
+                        .param("firstName", "Testing")
+                        .param("lastName", "Testingson")
+                        .param("socialSecurityNumber", "1234567890")
+                        .param("phoneNumber", "0733355777"))
+            .andExpect(status().isOk());
+
+        // kollar så att en customer har lagts till i db
+        assertEquals(initialCount + 1, customerRepository.count());
+    }
+
+    @Test
+    public void testGetAllCustomers() throws Exception {
+        mockMvc.perform(get("/customers"))
+                .andExpect(status().isOk());
+
     }
 
 }

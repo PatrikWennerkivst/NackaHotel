@@ -21,7 +21,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @RequestMapping("/customers")
+    @GetMapping("/customers")
     public String getAllCustomers(Model model) {
         List<DetailedCustomerDTO> customers = customerService.getAllCustomers();
         model.addAttribute("customers", customers);
@@ -42,7 +42,7 @@ public class CustomerController {
         model.addAttribute("lastName", lastName);
         model.addAttribute("socialSecurityNumber", socialSecurityNumber);
         model.addAttribute("phoneNumber", phoneNumber);
-        return "customerCreated";
+        return "redirect:/formBooking";
     }
 
     @RequestMapping("/customers/delete/{customerId}")
