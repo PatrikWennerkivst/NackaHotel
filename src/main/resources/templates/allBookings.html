@@ -25,6 +25,7 @@
     <div><strong>Booking-ID:</strong> <span th:text="${booking.id}">id</span></div>
     <div><strong>Start date:</strong> <span th:text="${booking.startDate}">date</span></div>
     <div><strong>End date:</strong> <span th:text="${booking.endDate}">date</span></div>
+    <div><strong>Number of Guests:</strong> <span th:text="${booking.numberOfGuests}">date</span></div>
     <div><strong>Customer:</strong> <span th:text="|${booking.customer.firstName} ${booking.customer.lastName}|">name</span></div>
     <div><strong>Room:</strong> <span th:text="${booking.room.name + ', ' + booking.room.type}">room</span> </div>
 

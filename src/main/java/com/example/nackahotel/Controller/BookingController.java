@@ -98,6 +98,7 @@ public class BookingController {
                                 Model model){
 
         if (bindingResult.hasErrors()) {
+            System.out.println("Validation errors found");
             model.addAttribute("booking", updateRequest);
             return "updateBooking";
         }

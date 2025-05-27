@@ -24,6 +24,7 @@ public class Mapper {
                 .endDate(booking.getEndDate())
                 .customerId(booking.getCustomer().getId())
                 .roomId(booking.getRoom().getId())
+                .numberOfGuests(booking.getNumberOfGuests())
                 .build();
     }
 

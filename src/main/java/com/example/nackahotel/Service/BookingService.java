@@ -95,6 +95,11 @@ public class BookingService {
                             HttpStatus.BAD_REQUEST, "Room with ID " + bookingDTO.getRoomId() + " not found"));
             booking.setRoom(room);
         }
+
+        if (bookingDTO.getNumberOfGuests() != null) {
+            booking.setNumberOfGuests(bookingDTO.getNumberOfGuests());
+        }
+
         bookingRepository.save(booking);
         return mapper.bookingToDetailedBookingDTO(booking);
     }
